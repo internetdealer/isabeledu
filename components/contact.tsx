@@ -138,7 +138,6 @@ export function Contact() {
     name: "",
     email: "",
     phone: "",
-    message: "",
   })
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
@@ -156,9 +155,6 @@ export function Contact() {
     setSubmitting(true)
     try {
       const messageParts: string[] = []
-      if (formData.message.trim()) {
-        messageParts.push(formData.message.trim())
-      }
       if (selectedDate) {
         messageParts.push(`Предпочтительная дата: ${formatDate(selectedDate)}`)
       }
@@ -187,7 +183,7 @@ export function Contact() {
         throw new Error(`FormSubmit: ${res.status}`)
       }
       setFormStatus("success")
-      setFormData({ name: "", email: "", phone: "", message: "" })
+      setFormData({ name: "", email: "", phone: "" })
       setSelectedDate(null)
       setSelectedTime(null)
     } catch {
@@ -307,20 +303,6 @@ export function Contact() {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full px-4 py-3.5 bg-muted/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:bg-background transition-all rounded-xl"
                     placeholder="+7 (999) 123-45-67"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                    Комментарий
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={3}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full resize-y min-h-[88px] px-4 py-3.5 bg-muted/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:bg-background transition-all rounded-xl"
-                    placeholder="Цели, уровень, удобный способ связи…"
                   />
                 </div>
 
