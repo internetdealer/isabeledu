@@ -3,8 +3,6 @@
 import { useState } from "react"
 import { Send, Mail, Phone, MapPin, Calendar, Clock, ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
 
-const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/nemytykh@icloud.com"
-
 const timeSlots = [
   "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"
 ]
@@ -163,24 +161,18 @@ export function Contact() {
       }
       const bodyText = messageParts.length > 0 ? messageParts.join("\n\n") : "—"
 
-      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name.trim(),
           email: formData.email.trim(),
           phone: formData.phone.trim() || "—",
           message: bodyText,
-          _subject: "Заявка с сайта Isabel Edu",
-          _replyto: formData.email.trim(),
-          _captcha: false,
         }),
       })
       if (!res.ok) {
-        throw new Error(`FormSubmit: ${res.status}`)
+        throw new Error(`contact_api: ${res.status}`)
       }
       setFormStatus("success")
       setFormData({ name: "", email: "", phone: "" })
